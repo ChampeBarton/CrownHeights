@@ -640,11 +640,19 @@
 				return i === response.index;
 			})
 
-			queue()
-				.defer(d3.csv, "https://raw.githubusercontent.com/BrooklynInk/CrownHeights/master/prev_update.csv")
-			    .defer(d3.csv, "https://raw.githubusercontent.com/BrooklynInk/CrownHeights/master/cur_update.csv")
-			    .defer(d3.csv, "https://raw.githubusercontent.com/BrooklynInk/CrownHeights/master/nycha_latlng.csv")
-			    .await(enter);
+			if(!mobile) {
+				queue()
+				    .defer(d3.csv, "https://raw.githubusercontent.com/BrooklynInk/CrownHeights/master/prev_update.csv")
+				    .defer(d3.csv, "https://raw.githubusercontent.com/BrooklynInk/CrownHeights/master/cur_update.csv")
+				    .defer(d3.csv, "https://raw.githubusercontent.com/BrooklynInk/CrownHeights/master/nycha_latlng.csv")
+				    .await(enter);
+			} else {
+				queue()
+				    .defer(d3.csv, "https://raw.githubusercontent.com/BrooklynInk/CrownHeights/master/prev_mobile.csv")
+				    .defer(d3.csv, "https://raw.githubusercontent.com/BrooklynInk/CrownHeights/master/cur_mobile.csv")
+				    .defer(d3.csv, "https://raw.githubusercontent.com/BrooklynInk/CrownHeights/master/nycha_latlng.csv")
+				    .await(enter);
+			}
 
 			function enter(error, prev, cur, pub) {
 			    if (error) throw error;
