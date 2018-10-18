@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Scrollama Demo: Fixed CSS</title>
+	<meta name="description" content="Scrollama Demo: Fixed CSS">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		/* default / demo page */
+
+		* {
+			box-sizing: border-box;
+		}
+
+		html,
+		body {
+			margin: 0;
+			padding: 0;
+			font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+		}
+
+		body {
+			min-height: 1280px;
+			font-weight: 300;
+			color: #2a2a2a;
+		}
+
+		p,
+		h1,
+		h2,
+		h3,
+		h4,
+		a {
+			margin: 0;
+			font-weight: 300;
+		}
+
+		a,
+		a:visited,
+		a:hover {
+			color: #f30;
+			text-decoration: none;
+			border-bottom: 1px solid currentColor;
+		}
+
+		path {
+		  fill: none;
+		  stroke: #B2BABB ;
+		  stroke-width: .5px;
+		  stroke-linejoin: round;
+		  stroke-linecap: round;
+		}
+
+		#intro {
+/*			max-width: 40rem;*/
+			padding: 80px 0;
+			text-align: center;
+		}
+
+		.intro__overline {
+			font-size: 1.4rem;
+		}
+
+		.intro__hed {
+			font-size: 2rem;
+			margin: 24px auto;
+			text-transform: uppercase;
+			font-weight: 900;
+			letter-spacing: 0.05em;
+		}
+
+		.intro__dek {
+			font-size: 1.4rem;
+			text-align: left;
+			padding: 0 25%;
+		}
+
+		.byline {
+			font-size: 1rem;
+			text-align: left;
+			margin-top: 20px;
+			padding: 0 25%;
+		}
+
+		.wrapper {
+			background-color: rgb(221,221,221);
+		}
+
+		/* demo */
+
+		#intro {
+			margin-bottom: 100px;
+		}
+
+		#outro {
+			height: 100px;
+		}
+
+		/* scrollama */
+
+		#scroll {
+			position: relative;
+/*			border-top: 1px dashed #000;
+			border-bottom: 1px dashed #000;*/
+		}
+
+		.prose {
+			font-size: 1rem;
+			text-align: left;
+			font-family: "Georgia", Times, serif;
+			font-weight: 300;
+			line-height: 28px;
+			margin-bottom: 31px;
+		}
+
+		.prose_head {
+			font-size: 2rem;
+			text-align: left;
+			font-family: "Georgia", Times, serif;
+			font-weight: 800;
+			line-height: 28px;
+			margin-bottom: 31px;
+		}
+
+/*		.prose_mobile {
+			font-size: 1rem;
+			text-align: left;
+			font-family: "Georgia", Times, serif;
+			font-weight: 300;
+			line-height: 28px;
+			margin-bottom: 31px;
+			padding:0 10%;
+		}*/
+
+		.intro_spacer {
+			height: 40px;
+		}
+
+		.scroll__graphic {
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: auto;
+			background-color: #fff;
+			-webkit-transform: translate3d(0, 0, 0);
+			-moz-transform: translate3d(0, 0, 0);
+			transform: translate3d(0, 0, 0);
+		}
+
+		.scroll__graphic.is-fixed {
+			position: fixed;
+		}
+
+		.scroll__graphic.is-bottom {
+			bottom: 0;
+			top: auto;
+		}
+
+		.chart {
+			position: absolute;
+			right: 1rem;
+			top: 50%;
+			-moz-transform: translateY(-50%);
+			-webkit-transform: translateY(-50%);
+			transform: translateY(-50%);
+			/*background-color: #ddd;*/
+/*			border: 1px solid #000;*/
+		}
+
+		.chart p {
+			text-align: center;
+			padding: 1rem;
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			-moz-transform: translate(-50%, -50%);
+			-webkit-transform: translate(-50%, -50%);
+			transform: translate(-50%, -50%);
+			font-size: 8rem;
+			font-weight: 900;
+			color: #666;
+		}
+
+		.scroll__text {
+			position: relative;
+			padding: 0 0 0 8rem;
+			max-width: 40rem;
+			width: 40%;
+		}
+
+		.step {
+			margin: 2rem auto;
+			border-radius: 5px;
+			background-color: rgba(255,255,255,0.6);
+			box-shadow: 0 0 6px rgba(0,0,0,0.6);
+            -moz-box-shadow: 0 0 6px rgba(0,0,0,0.6);
+            -webkit-box-shadow: 0 0 6px rgba(0,0,0,0.6);
+            -o-box-shadow: 0 0 6px rgba(0,0,0,0.6);
+		}
+
+		.step.is-active {
+		}
+
+		.step.is-last {
+			margin: 2rem auto;
+			border-radius: 5px;
+			background-color: #ffffff;
+			opacity:0;
+		}
+
+		.step p {
+			text-align: left;
+			padding: 16px;
+			font-size: 1rem;
+			font-weight: 800;
+			font-family: "Georgia", Times, serif;
+		}
+
+		.step_buffer {
+			height: 300px;
+		}
+
+		.nycha {
+			top: 10%;
+			-moz-transform: translateY(-10%);
+			-webkit-transform: translateY(-10%);
+			transform: translateY(-10%);
+		}
+
+		.nycha_container {
+			position: relative;
+			height: 650px;
+		}
+
+		.body_container {
+			position: relative;
+			padding:0 25%;
+		}
+
+		@media (max-width: 480px) {
+			.intro__hed {
+				margin: 24px 3%;
+			}
+
+			.intro__dek {
+				padding: 0 6%;
+			}
+
+			.byline {
+				padding: 0 6%;
+			}
+
+			.prose {
+				font-size: 16px;
+			}
+
+			.prose_head {
+				font-size: 30px;
+			}
+
+			.body_container {
+				padding:0 6%;
+			}
+
+			.chart p {
+				padding: 1rem;
+				position: absolute;
+				left: 50%;
+				-moz-transform: translate(-50%, -50%);
+				-webkit-transform: translate(-50%, -50%);
+				transform: translate(-50%, -50%);
+			}
+
+			.scroll__graphic {
+				left: 0;
+				-webkit-transform: translate3d(0, 0, 0);
+				-moz-transform: translate3d(0, 0, 0);
+				transform: translate3d(0, 0, 0);
+			}
+
+			.scroll__text {
+				padding: 0 0 0 10%;
+				width: 90%;
+			}
+
+			.nycha {
+				right: 0rem;
+			}
+
+			.nycha_container {
+				height: 500px;
+			}
+
+		}
+
+/*		@media (max-width: 320px) {
+			.intro__hed {
+				margin: 24px 2%;
+			}
+
+			.intro__dek {
+				padding: 0 6%;
+			}
+
+			.byline {
+				padding: 0 6%;
+			}
+
+			.prose {
+				padding:0 6%;
+			}
+
+			.chart {
+				right: 0rem;
+			}
+
+			.chart p {
+				padding: 1rem;
+				position: absolute;
+				left: 50%;
+				-moz-transform: translate(-50%, -50%);
+				-webkit-transform: translate(-50%, -50%);
+				transform: translate(-50%, -50%);
+			}
+
+			.scroll__graphic {
+				left: 0;
+				-webkit-transform: translate3d(0, 0, 0);
+				-moz-transform: translate3d(0, 0, 0);
+				transform: translate3d(0, 0, 0);
+			}
+
+			.scroll__text {
+				padding: 0 0 0 10%;
+				width: 90%;
+			}*/
+
+		}
+
+	</style>
+
+</head>
+
+<body>
+	<div class='wrapper'>
+		<section id='intro'>
+	<!-- 		<p class='intro__overline'>
+				<a href='https://github.com/russellgoldenberg/scrollama'>scrollama.js</a>
+			</p> -->
+			<h1 class='intro__hed'>When Departure Means Dissolution</h1>
+			<p class='intro__dek'>
+				In Crown Heights, Brooklyn, a mass exodus of residents seeking affordable housing has put strain on the city's largest West Indian enclave.
+			</p>
+			<p class='byline'>
+				By <a href="https://twitter.com/champebarton">Champe Barton</a>
+			</p>
+			<div class='intro_spacer'></div>
+		</section>
+	</div>
+	<div class='body_container'>
+		<p class='prose_head'>I. Scattered</p>
+		<p class='prose'>
+			Since 2000, almost 40,000 black people have left the 3.2 square miles of community district that make up Crown Heights. They have been replaced nearly one-for-one by incoming whites. Much has been written about the incomers — how the coffee shops and high rises designed to attract them have remade a community against its will.
+		</p>
+		<p class='prose'>
+			But what about the people who left? Where do they go, and what’s lost when they leave?
+		</p>
+		<p class='prose'>
+			To answer the first of these questions, the Brooklyn Ink analyzed voter registration data from the New York State Board of Elections, tracking the movement of voters previously registered in one of Crown Heights 103 election districts.
+		</p>
+	</div>
+	<div class='intro_spacer'> </div>
+	<section id='scroll'>
+		<div class='scroll__graphic'>
+			<div class='chart'>
+			</div>
+		</div>
+		<div class='scroll__text'>
+			<div class='step' data-step='1'>
+				<p>Each <span style="color: rgb(223,68,156)">pink</span> dot represents a registered voter’s previous address. When a dot moves, it changes color. Each <span style="color: rgb(58,144,222)">blue</span> dot represents a registered voter’s current address, as of September 13th, 2018.</p>
+			</div>
+			<div class='step_buffer'></div>
+			<div class='step' data-step='2'>
+				<p>Crown Heights had the largest population of West Indian immigrants of any Brooklyn neighborhood from 2007-2013, according to the most recent data available from the <a href="https://www1.nyc.gov/assets/planning/download/pdf/data-maps/nyc-population/nny2013/nny_2013.pdf">Department of City Planning</a>. West Indian immigrants make up 23% of the neighborhood’s total population.</p>
+			</div>
+			<div class='step_buffer'></div>
+			<div class='step' data-step='3'>
+				<p>But an influx of affluent, college-educated, predominantly white residents since 2000 has driven up rent prices, displacing some of these immigrants and, critics say, incentivizing landlords to force out others.</p>
+			</div>
+			<div class='step_buffer'></div>
+			<div class='step' data-step='4'>
+				<p>Unlike other cultural enclaves (for example, Manhattan’s Chinatown, which has partially relocated to Sunset Park and Flushing), the data suggest registered voters in Crown Heights have not resettled in any one specific location.</p>
+			</div>
+			<div class='step_buffer'></div>
+			<div class='step' data-step='4'>
+				<p>Instead, they’ve scattered. Current addresses appear to cluster loosely around Jamaica/St. Albans in Queens and Harlem/Washington Heights in Manhattan — two heavily black, heavily Caribbean areas. But no area near as dense as Crown Heights has emerged. </p>
+			</div>
+			<div class='step_buffer'></div>
+		</div>
+	</section>
+	<div class='body_container'>
+		<p class='prose'>
+			Registered voters are not fully representative of a neighborhood’s population. Undocumented immigrants cannot register, for instance, and registration is <a href="https://www.census.gov/data/tables/time-series/demo/voting-and-registration/p20-580.html">higher among whites</a> than any other demographic. But interviews with residents, business owners, and real estate professionals inside of Crown Heights confirmed that the destinations on the map align with the movement of West Indian friends and neighbors who have left the neighborhood. One explanation for this phenomenon, says Clyde Bell, a local real estate agent and property owner, is that residents leaving rent-stabilized apartments find themselves in a market with only a single affordable option: subsidized, Section 8 housing. Bell, who has been in real estate for 20 years, called rents across the city “abnormally high.” His observation is supported by data from the Real Estate Board of New York’s residential sales report: the average price of a home in New York City increased by over a quarter of a million dollars in the past six years alone, from $723,000 in 2012 to $1,000,000 today.
+
+		</p>
+		<p class='prose'>
+			As Bell noted, residents determined to stay in the city but unable to find affordable living must often turn to some form of subsidized housing: application-based programs in which qualifying tenants can find housing at rents adjusted to their income. A map of public housing developments — many of which include Section 8 units — from the New York City Housing Authority (NYCHA) suggests that the migratory patterns of registered voters out of Crown Heights may have more to do with the locations of these developments than any other factor.
+		</p>
+	</div>
+	<div class="nycha_container">
+		<div class='nycha'></div>
+	</div>
+	<div class='body_container'>
+		<p class='prose'>
+			Not every departing Crown Heights resident can land in one of these developments, however. According to the New York City Independent Budget Office, the vacancy rate for all NYCHA housing developments hovers around <a href="http://ibo.nyc.ny.us/cgi-park2/2017/12/how-many-apartments-in-the-citys-public-housing-developments-are-underoccupied/">1%</a>, with more individuals and families on the waiting list than there were available units in <a href="https://www.nytimes.com/2013/07/24/nyregion/for-many-seeking-public-housing-the-wait-can-be-endless.html?pagewanted=1&hp">2013</a>. This means that some tenants are forced to consider options outside of the city, or less favorable options within it.
+		</p>
+		<p class='prose'>
+			There are two routes for those set on staying in the city, but unable to pay its soaring rents, says Maurice Cole, Senior Housing Counsel at the Brooklyn Neighborhood Improvement Association: move in with relatives or become homeless. “You’ll see two-bedroom apartments with six or eight people,” he said. “I dealt with one particular situation with 12 people in a two-bedroom apartment.” A 2018 report by the Association for Neighborhood Housing and Development gives teeth to his experience, showing Brooklyn Community District 9 (which includes Crown Heights South) with one of the 20 highest rates of severe crowding among all community districts in the city.
+		</p>
+		<p class='prose'>
+			And for those folded into the city’s homeless population — which has ballooned to its highest levels since the Great Depression, according to the Coalition for the Homeless, the oldest non-profit homelessness advocacy group in the U.S. — Cole said the city has taken few steps to expand the number of transitional options. Instead, Mayor Bill De Blasio has pledged to revamp the city’s shelter network by building more, higher quality shelters. His 2017 initiative, “Turning the Tide on Homelessness,” aims to end the use of commercial hotels and privately-owned <a href="https://ny.curbed.com/2017/12/12/16766278/nyc-affordable-housing-shelters-conversion-bill-de-blasio">cluster sites</a> to house homeless individuals by building better-regulated alternatives. Three of the first four shelters announced are being built in Crown Heights, much to the <a href="https://www.dnainfo.com/new-york/20170304/crown-heights/homeless-shelter-men-bergen-st/">outrage</a> of longtime residents who question why poorer, blacker communities like theirs should continue to bear the brunt of the new construction and homeless residents.
+		</p>
+		<p class='prose'>
+			Michael Hollingsworth, a member of the Crown Heights tenant union and a renter at 12 Crown St., <a href="https://www.cityandstateny.com/articles/policy/nonprofits/homeless-shelters-opened-under-mayor-de-blasio.html">two blocks</a> from one of the new shelters, agrees with this sentiment. He said that pumping money into the development of shelters and new luxury high rises overlooks the needs of tenants facing displacement, when that money and space could go towards increasing the number of affordable units.
+		</p>
+		<p class='prose'>
+			Soon enough, a good number these residents may have to leave the city altogether. Hollingsworth, along with several business owners, pastors, and community organizers spoke of friends or family who had returned to their home islands: to Trinidad and Tobago, to Guyana, Haiti, Jamaica, or Grenada. Others moved South, part of a <a href="https://www.brookings.edu/research/the-new-great-migration-black-americans-return-to-the-south-1965-2000/">New Great Migration</a> of blacks seeking more affordable living in Atlanta, Raleigh, South Florida, and other locations. These migrants were difficult to reach, failing to return calls or outright refusing requests to speak, unwilling to relitigate the trauma of their move, according to those who reached out on the Ink’s behalf. Their absence in the community is felt, especially by longtime residents like Hollingsworth, who has lived in Crown Heights for over 30 years: Without a change, he said, “this place is going to end up like Times Square. Eventually it’s going to be like we were never here.”
+		</p>
+		<p class='prose_head'>II. Displaced</p>
+		<p class='prose'>
+			This past summer, Jeanette Lett, 43, says she received a call from her landlord for the first time since moving to his property from Trinidad in 2004. He wanted to know if she had found another apartment. She had not. He also wanted <i>her</i> to know that he needed her apartment, that he needed her gone.
+		</p>
+		<p class='prose'>
+			Lett was, in fact, looking for a new home, and, she says her landlord knew as much. The one bedroom she occupied with her husband and their 11 year old son was small; her son would soon need his own room. But Lett says her landlord was less concerned with her placement in a new home than with the vacancy of her current one, and so he called again the next day. “I need your apartment,” she said he told her. The next day, the same call. She asked that he stop calling, but he called again. And again. She says he called her every day for a month until she re-signed the lease he had offered a month before.
+		</p>
+		<p class='prose'>
+			Lett says she has had no communication with her landlord since, aside from a call he made to scold her for notifying 311 about his unwillingness to answer the phone or make needed repairs. She says in the little interaction they share, he treats her like she’s stupid, and that he responds to her complaints — about leaks, about debris resting against her first-floor-apartment’s bedroom window — with “an aura of ‘I don’t care’.” 
+		</p>
+		<p class='prose'>
+			This strategy is typical of landlords who want to capitalize on inflating market rates for rent-stabilized apartments, says Estefania Trujillo, an organizer for the Flatbush Tenant Coalition. It fuels the involuntary exodus from Crown Heights that has unfolded since 2000. Once the market value of a rent-stabilized apartment exceeds a certain dollar figure ($2,700, according to Trujillo), landlords can rent it at market rate should a vacancy arise. This incentivizes landlords to mount harassment campaigns against rent-stabilized tenants in which they prey on tenants’ poverty with buyout offers and withhold maintenance in an effort to convince them their apartments are not worth holding onto. 
+		</p>
+		<p class='prose'>
+			In Lett’s case, her landlord’s calling was the latest in a string of what she considers attempts to force her from her apartment, attempts that skirted the line between immoral and illegal. As far back as 2012, Lett says she struggled to get substantive maintenance for repairs. An untreated leak in her bathroom ceiling spread to her bedroom and after two years of neglect, caused the ceiling to cave. It took four days for a maintenance person to arrive and when one did, the hole was covered with paper and duct tape. In the end, her husband had to seal it himself. A representative for the Crown Heights Tenant Union familiar with Lett’s situation confirmed this account.
+		</p>
+		<p class='prose'>
+			The New York City Department of Housing Preservation and Development defines landlord harassment as, among other things, “a failure to provide necessary repairs or utilities.” But despite the illegality of tactics weaponized by landlords, tenants say harassment is common, and often more trouble to litigate than to put up with. Khalid Hamid, 39, ended up moving out of his Crown Heights apartment after an unattended leak in his bedroom spread to his infant son’s crib. He says he had to withhold his rent to twist the arm of his landlord, risking his credit score and amenities before decamping to Flatbush. His $1,500 a month one-bedroom apartment, he says, now rents for $3,000 a month.
+		</p>
+		<p class='prose'>
+			In one egregious case, according to FTC organizer Estefania Trujillo, an 84 year old Flatbush tenant, <a href="https://bklyner.com/killed-joy-noel/">Joy Pearl Noel</a>, returned to her home of 20 years from an out-of-country medical treatment to find her belongings in storage and her apartment rented to a new tenant. Her landlord, Isaac Jacobowitz of Carnegie Management, had filed a court proceeding for her eviction after she informed him of her trip, Trujillo said. Because of a typo in the court filing, she was never notified of her court date, and unable to justify her absence. Noel died before she could see through her appeal. She spent much of her last five months homeless, the casualty of a system Trujillo alleges is rigged against tenants, especially poorer, elderly ones without the physical or financial wherewithal to cross legal swords with landlords.
+		</p>
+		<p class='prose'>
+			Jacobowitz, when asked to comment on these allegations, told a different story. He says that Noel failed to comply with standards required of all Section 8 housing tenants after an inspection of her home revealed a fire hazard. He says she then failed to address the hazard in a timely manner, at which point the government withdrew her Section 8 funding. For five years, Jacobowitz says, Noel declined offers to help her comply with Section 8 guidelines and refused to address the compliance issue herself. Carnegie management filed several court proceedings against her during this time. A $70,000 loss accrued over those five years, says Jacobowitz: the total dollar amount that would have been paid to Carnegie Management by the federal government. When asked about whether Carnegie landlords employed any harassment tactics to vacate low-paying tenants, Jacobowitz said the difference between the rent-stabilized and market rate rents was not large enough to justify such actions in the first place. In 2014, Carnegie Management was <a href='https://www.nytimes.com/2014/12/23/nyregion/after-suing-tenant-comes-home-to-the-brooklyn-apartment-she-was-made-to-leave.html?_r=0'>ordered by a judge</a> to evict a market rate tenant and reinstate a rent-stabilized one after losing a wrongful eviction suit.
+		</p>
+		<p class='prose'>
+			Landlords, wary of the legal risk they run in evicting or denying maintenance to paying tenants, have devised other, cleaner methods for generating vacancies in their buildings. The most common, the buyout, works like this: a landlord, realizing that he or she can make double or triple per month what a rent-stabilized tenant pays for the same unit, offers the tenant a lump sum to vacate — $10,000, $20,000, $70,000, to break their lease and move elsewhere. Many tenants, not realizing how quickly a market rate rent would drain a $20,000 check, take the money and leave, only to find themselves broke and tethered to a lease they can’t afford less than a year later. Many such tenants are then evicted, Trujillo says, permanently damaging their ability to secure a lease in the future.
+		</p>
+		<p class='prose'>
+			“It’s 100 percent predatory, but it’s not illegal” explained real estate agent Clyde Bell. Bell, himself a property manager for several landlords, recognizes the dubious ethical waters such tactics occupy, and the real life consequences they bear on unwitting tenants. But he drew a distinction between moral lapses and market forces, stopping just short of claiming the latter justifies the former. To Bell, market pressures force landlords to take action against troublesome tenants and troublesome tenants alone: landlords offer difficult renters buyouts, regardless of race or socioeconomic class, while model tenants sign their leases unfettered. “We’re not evicting nuns,” he said.
+		</p>
+		<p class='prose'>
+			Bell’s view of the situation omits some of the demographic churn Crown Heights residents have grappled with over the the past decade. But he makes a fair point that the economic arm of this equation bears considering. Since 2012, the cost of a one to three-family dwelling in Crown Heights has nearly tripled, from $358,000 in the second quarter of 2012 to $1,005,000 today, according to the Real Estate Board of New York’s residential sales report. Landlords for rent-stabilized apartments see little of that financial gain. Michael Hollingsworth says that his landlord sold a condo on the floor above him for a little over a million dollars. The apartments to the right and the left of that condo are rent-stabilized, renting for $1,000 a month, he said. It would take 1,000 months—83 years—for his landlord to make a comparable profit from either adjacent unit.
+		</p>
+		<p class='prose'>
+			Hollingsworth, for his part, doesn’t care. The landlords don’t live in their communities, he says, and only plant roots here to turn a profit. And that profit is ever more generated by Crown Heights’ newcomers. “It’s all being built to attract new residents” he said. “There’s something immoral about that.”
+		</p>
+		<p class='prose_head'>III. Lost</p>
+		<p class='prose'>
+			When Bernice Alford joined Trinity Baptist Church, on the corner of New York Avenue and Prospect Place in Crown Heights, its pews were full. It was the summer of 1959 and Alford, the seventh daughter of South Carolina sharecroppers, was among the church’s first black congregants. Through the succeeding decade, she would see the church’s white congregation give way to the thrust of the Great Migration, while its attendance remained steady. There were still junior choirs, still men’s choruses, still Sunday packed schools and ushers to greet passersby at the door.
+		</p>
+		<p class='prose'>
+			Fifty years later, however, passersby are finding their own way. Trinity today is home to a meager few, its vaulted wooden ceiling shelter to a rapidly shrinking congregation. As a result, the church is struggling to stay afloat, retooling clumsily to attract a demographic that has not prayed in its chapel in five decades. Alford sees in this moment a familiar struggle, one that parallels the upheaval her arrival signaled for whites in Central Brooklyn in the late 1950s. Except where incoming blacks were then eager to enjoy the freedoms denied them in the Jim Crow South, incoming whites today have shown little interest in participating in otherwise all-black, all-Caribbean affairs. 
+		</p>
+		<p class='prose'>
+			Trinity pastor Glenmore Bembry says that on the few occasions that a curious white passerby slips into the church’s backmost pew, they leave after 45 minutes, unaccustomed to the Baptist tradition of rousing hours-long services. And his efforts to recruit new congregants — a community garden out in front of the church, participation in local advocacy groups and community events — have, by and large, borne no fruit. He says his congregation, mostly older, almost exclusively Caribbean, has resisted modernization that might appeal to incoming residents. A facebook page set up at Bembry’s request was shut down anonymously by a dissenting congregant, and attempts to include LGBTQ congregants backfired after the church’s first openly gay member left, telling Bembry his congregation was not as accepting of homosexuality as his sermons were.
+		</p>
+		<p class='prose'>
+			Bembry, in response, has relegated to a young theological doctoral student and a team of other young congregants the task of charting a survival course for the church, a 20 year plan to envision, prepare for, and implement the types of changes that would keep Trinity solvent, and its doors open. If the group fails, Trinity will join a long list of Crown Heights businesses and organizations that vanished since the early 2000s and Alford, the lone survivor of Trinity’s original roster of black congregants, will have to watch the church that has been her home for the better half of a lifetime field its last prayer. “I pray to God it does not close,” she said, before a long pause. “It would hurt me.”
+		</p>
+		<p class='prose'>
+			As the city’s largest enclave for West Indian immigrants, the community loses something intangible — in addition to its historic churches and longtime residents — when it fractures like it’s fracturing now. First and second generation immigrant residents like Khalid Hamid and Michael Hollingsworth say they feel the change, a loss of something they and their families carried with them from the islands. In Hamid’s countryside Trinidadian home of Arima, birthplace of Lord Kitchener, the grandmaster of calypso, Hamid remembers a tight-knit fabric, the kind of community where kids raced from house to house with doors unlocked, where you could rifle through a friend’s fridge as though it was your own. It was a collectivist culture, he said, with few rifts as deep as the dichotomies that exist between subgroups in the United States. 
+		</p>
+		<p class='prose'>
+			Hollingsworth, the son of a Guyanese immigrant, says life in Crown Heights growing up was much the same: “We knew every adult. Every adult was Mr. or Mrs.,” he said, recalling apartments as porous as Hamid’s Arima neighborhood homes. Unfortunately, that’s changed, he said, and he’s unsure why. He speculates that an increase in the number of single parent homes may be responsible, or families’ island attitudes worn bare by America’s unrelenting racial pressures. Most likely, he suspects, it’s a combination of these things, and the result of a community that is not the one it used to be.
+		</p>
+		<p class='prose'>
+			Bernice Alford sees this same dissolution in Trinity Baptist Church, just as Clyde Bell sees it in second generation immigrants selling inherited property to leave town. Saint Croix immigrant business owner Alester Garvey sees it in the community’s unwillingness to collaborate on business and social initiatives, and Jeanette Lett in her building’s many new faces, faces she no longer recognizes. And they all, Garvey and Hamid and Bell and Lett and even Pastor Bembry, who commutes from New Jersey, see it in the slow death of the West Indian Day Parade, Crown Heights’ controversial crown jewel.
+		</p>
+		<p class='prose'>
+			The West Indian Day Parade, according to the <a href="http://www.brooklynpubliclibrary.org/ourbrooklyn/carnival/">Brooklyn Public Library</a>, is one of the largest revenue-producing parades in New York State, attracting more than a million attendees and bringing in nearly $150 million every Labor Day weekend. It is a condensed version of the Caribbean Carnival festival, replete with vibrant, feathered masquerade marches, soca-blaring floats, and a parkway’s worth of caribbean food vendors peddling tastes from the islands. Each year, the heads of New York state and city government make an appearance, from Governor Mario Cuomo to Senator Chuck Schumer to Mayor De Blasio, and attendees flood the streets in bare skin and flagship colors, owning Eastern Parkway for an afternoon.
+		</p>
+		<p class='prose'>
+			But a reputation for violence looms over the parade weekend, and has motivated city officials to constrain it, upping police presence along the parade route and shortening the amount of time its participants can revel. To all, this shrinkage is symbolic of the neighborhood’s shifting demographic, the clearest evidence yet that the Crown Heights’ Caribbean character is dissipating. Hamid explained that ten years ago, the festivities would start as early as 3 in the morning with J’Ouvert and run through sundown, an all day affair reminiscent of Carnival on Trinidad. Every year for the past decade, however, the city has taken steps to shorten the celebration, he said. This year, J’Ouvert had an official start time of 6 a.m., and the parade following it ended abruptly at 6 p.m..
+		</p>
+		<p class='prose'>
+			Rhea Smith, vice president of the West Indian American Day Carnival Association, the organization that hosts the parade, acknowledged the challenges presented by constraints on the festivities, but was cautious about prescribing those constraints to demographics alone. “The violence is sort of a part of our resume now,” she said, explaining that even though incidences have come fewer and farther between in recent years, the reputation has been hard to kick. What she sees, instead, is that the parade, much like Trinity Baptist Church, will need to become more inclusive if it hopes for longevity through the demographic turbulence of the coming decades, especially if the West Indian residence in Crown Heights continues to decline.
+		</p>
+		<p class='prose'>
+			Nevertheless, Smith has hope the parade will succeed in its mission. She recounts the story of her Korean eyebrow lady, a woman who, in her mid-60s, dawns full masquerade regalia and marches, sunbaked, for hours, the length of the parade route every Labor Day. The parade appeals to people like her, she says, who understand and appreciate the importance of cultural enrichment. Whether such people exist in sufficient numbers to bolster the parade on their own is questionable, though, according to Michael Hollingsworth. He said that new residents in his building, all of whom are white, fall into two categories: those who interact with the neighborhood as though it didn’t exist before their arrival and those who want to be a part of the community that predated them.
+		</p>
+		<p class='prose'>
+			Other longtime residents share Hollingsworth sentiments, especially as they relate to the survival of the parade. Jeanette Lett, who has attended the parade every year since arriving to the city in 2004, says she’s heard whispers for years about efforts to eliminate it. This is her biggest fear, she says: the erasure of the one opportunity each year that so many residents get to taste home.
+		</p>
+	</div>
+	<section id='outro'></section>
+	<script src='//d3js.org/d3.v4.min.js'></script>
+	<script src='https://unpkg.com/intersection-observer@0.5.0/intersection-observer.js'></script>
+	<script src='https://unpkg.com/scrollama'></script>
+	<script src="//d3js.org/topojson.v1.min.js"></script>
+	<script src="//d3js.org/queue.v1.min.js"></script>
+	<script>
+
+		var mobile = 0;
+
+		if( /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ) {
+			mobile = 1;
+		}
+		// using d3 for convenience
+		var container = d3.select('#scroll');
+		var graphic = container.select('.scroll__graphic');
+		var chart = graphic.select('.chart');
+		var text = container.select('.scroll__text');
+		var step = text.selectAll('.step');
+		var buffer = d3.selectAll('.step_buffer');
+
+		var start = 0,
+		done = 0,
+		tally = 3058,
+		tally2 = 3058;
+
+		if(!mobile) {
+			var width = 800,
+			height = 800;
+
+			var projection = d3.geoAlbers()
+		      .center([0, 40.70])
+		      .rotate([73.9456, 0])
+		      .parallels([40.52, 41.75])
+		      .scale(80000)
+		      .translate([width / 2, height / 2]);
+		} else {
+			var width = 350,
+			height = 500;
+
+			var projection = d3.geoAlbers()
+		      .center([0, 40.70])
+		      .rotate([73.9456, 0])
+		      .parallels([40.52, 41.75])
+		      .scale(60000)
+		      .translate([width / 2, height / 2]);
+		}
+
+
+		// var radius = d3.scale.sqrt()
+		//     .domain([0, 2300])
+		//     .range([0, 30]);
+
+		  var path = d3.geoPath()
+		      .projection(projection);
+
+		  var movement = chart.append("svg")
+		      .attr("width", width)
+		      .attr("height", height);
+
+		  var nycha = d3.select('.nycha').append("svg")
+		  	  .attr("width", width)
+		  	  .attr("height", height);
+
+		  queue()
+		      .defer(d3.json, "nycd-topo.json")
+		      .await(ready);
+
+		   function ready(error, nycd) {
+			    if (error) throw error;
+
+			    movement.append("path")
+			        .datum(topojson.mesh(nycd))
+			        .attr("d", path);
+
+			    nycha.append("path")
+			    	.datum(topojson.mesh(nycd))
+			        .attr("d", path);
+			}
+
+			d3.select(self.frameElement).style("height", height + "px");
+
+		// initialize the scrollama
+		var scroller = scrollama();
+
+		// generic window resize listener event
+		function handleResize() {
+			// 1. update height of step elements
+			// var stepHeight = Math.floor(window.innerHeight * 0.25);
+			var bufferHeight = Math.floor(window.innerHeight * 0.55);
+			// step.style('height', stepHeight + 'px');
+			buffer.style('height', bufferHeight + 'px');
+
+			// 2. update width/height of graphic element
+			var bodyWidth = d3.select('body').node().offsetWidth;
+
+			graphic
+				.style('width', bodyWidth + 'px')
+				.style('height', window.innerHeight + 'px');
+
+			var chartMargin = 32;
+			var textWidth = text.node().offsetWidth;
+			var chartWidth = graphic.node().offsetWidth - textWidth - chartMargin;
+
+			if(!mobile) {
+				chart
+					.style('width', 800 + 'px')
+					.style('height', 800 + 'px');
+
+				d3.select(".nycha_container")
+					.style('left', 22 + '%')
+					.style('width', 800 + 'px');
+			} else {
+				chart
+					.style('width', 350 + 'px')
+					.style('height', 500 + 'px');
+
+				d3.select(".nycha_container")
+					.style('left', 4 + '%')
+					.style('width', 350 + 'px')
+					.style('height', 500 + 'px');
+			}
+
+
+			// 3. tell scrollama to update new element dimensions
+			scroller.resize();
+		}
+
+		// scrollama event handlers
+		function handleStepEnter(response) {
+			// response = { element, direction, index }
+
+			// add color to current step only
+			step.classed('is-active', function (d, i) {
+				return i === response.index;
+			})
+
+			queue()
+				.defer(d3.csv, "prev_update.csv")
+			    .defer(d3.csv, "cur_update.csv")
+			    .defer(d3.csv, "nycha_latlng.csv")
+			    .await(enter);
+
+			function enter(error, prev, cur, pub) {
+			    if (error) throw error;
+
+			    if (response.index == 0 && response.direction == 'down'){
+			    	movement.selectAll("circle")
+				      .data(prev)
+				      .enter()
+				      .append("circle")
+				      .attr("cx", function(d) { return projection([+d.lon, +d.lat])[0]; })
+				      .attr("cy", function(d) { return projection([+d.lon, +d.lat])[1]; })
+				      .attr("r", "2px")
+				      .attr("fill", "none");
+
+				    d3.selectAll("circle")
+				      .transition().delay( function(d, i) { return i * 500})
+				        .attr("fill", "rgba(223,68,156,.7)");
+
+				    d3.selectAll("circle")
+				      .data(cur)
+				      .transition().duration(800).delay( function(d, i) { return i * 700})
+				        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+				        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+				        .attr("fill", "rgba(58,144,222,.7)");
+			    }				
+			    else if (response.index == 0 && response.direction == 'down' && start != 0 && done != 0) {
+				 //	   d3.selectAll("circle")
+				 //      .transition().duration(20).delay( function(d, i) { return i * 10})
+				 //        .attr("fill", "rgba(223,68,156,0)")
+				 //        .attr("stroke", "rgba(0,0,0,0)");
+
+				 	d3.selectAll("circle")
+				      .transition().delay( function(d, i) { return i * 500})
+				        .attr("fill", "rgba(223,68,156,.7)");
+
+					d3.selectAll("circle")
+				      .data(cur)
+				      .transition().duration(800).delay( function(d, i) { return i * 700})
+				        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+				        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+				        .attr("fill", "rgba(58,144,222,.7)");
+
+				    done = 0;
+				    console.log("end")
+				}
+
+				if (response.index == 1 && response.direction == 'down') {
+
+				    d3.selectAll("circle")
+				      .transition().delay( function(d, i) { return i * 90})
+				        .attr("fill", "rgba(223,68,156,.7)");
+
+				    d3.selectAll("circle")
+				      .data(cur)
+				      .transition().duration(500).delay( function(d, i) { return i * 100})
+				        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+				        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+				        .attr("fill", "rgba(58,144,222,.7)");
+				} 
+				else if (response.index == 1 && response.direction == 'up') {
+					d3.selectAll("circle")
+				      .data(prev)
+				      .transition().duration(1000).delay( function(d, i) { 
+				      	tally2 = tally2 - 2;
+				      	return (i+tally2) * 2 
+				      })
+				        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+				        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+				        .attr("fill", "rgba(223,68,156,.7)")
+				      .transition().duration(300).delay( function(d, i) {
+				       	tally = tally - 2;
+				       	return (i+tally) * 3
+				   	  })
+				          .attrTween("fill", function() {return d3.interpolateRgb("rgba(177,238,101,.7)", "rgba(223,68,156,0)")});
+
+				    done = 1;
+				    tally = 3058;
+				    tally2 = 3058;
+				}
+
+				if (response.index == 2 && response.direction == 'down') {
+					// d3.selectAll("circle")
+				 //      .transition().delay( function(d, i) { return i * 60})
+				 //        .attr("fill", "rgba(223,68,156,.7)");
+
+					// d3.selectAll("circle")
+				 //      .data(cur)
+				 //      .transition().duration(600).delay( function(d, i) { return i * 100})
+				 //        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+				 //        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+				 //        .attr("fill", "rgba(58,144,222,.7)");
+				 //      .transition().duration(800).delay( function(d, i) { return i * 500})
+				 //        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+				 //        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+				 //        .attr("fill", "rgba(58,144,222,.7)");
+				}
+				else if (response.index == 2 && response.direction == 'up') {
+
+				}
+
+				if (response.index == 3 && response.direction == 'down') {
+					d3.selectAll("circle")
+				      .transition().delay( function(d, i) { return i * 2})
+				        .attr("fill", "rgba(223,68,156,.7)");
+
+					d3.selectAll("circle")
+				      .data(cur)
+				      .transition().duration(1000).delay( function(d, i) { return i * 3 })
+				        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+				        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+				        .attr("fill", "rgba(58,144,222,.7)");
+				}
+				else if (response.index == 3 && response.direction == 'up') {
+					d3.selectAll("circle")
+				      .data(prev)
+				      .transition().duration(500).delay( function(d, i) { 
+				      	tally = tally - 2;
+				      	return (i + tally) * 5
+				      })
+				        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+				        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+				        .attr("fill", "rgba(223,68,156,.7)");
+
+				    tally = 3058
+				}
+
+				nycha.selectAll("ellipse")
+				      .data(pub)
+				      .enter()
+				      .append("ellipse")
+				      .attr("cx", function(d) { return projection([+d.longitude, +d.latitude])[0]; })
+				      .attr("cy", function(d) { return projection([+d.longitude, +d.latitude])[1]; })
+				      .attr("rx", "4px")
+				      .attr("ry", "4px")
+				      .attr("fill", "rgba(177,223,188,0.5)");
+
+			}
+
+			// update graphic based on step
+			// chart.select('p').text(response.index + 1)
+		}
+
+		function handleContainerEnter(response) {
+			// response = { direction }
+
+			// sticky the graphic (old school)
+			graphic.classed('is-fixed', true);
+			graphic.classed('is-bottom', false);
+		}
+
+		function handleContainerExit(response) {
+			// response = { direction }
+
+			// un-sticky the graphic, and pin to top/bottom of container
+			graphic.classed('is-fixed', false);
+			graphic.classed('is-bottom', response.direction === 'down');
+		}
+
+		function init() {
+			// 1. force a resize on load to ensure proper dimensions are sent to scrollama
+			handleResize();
+
+			// 2. setup the scroller passing options
+			// this will also initialize trigger observations
+			// 3. bind scrollama event handlers (this can be chained like below)
+			scroller.setup({
+				container: '#scroll',
+				graphic: '.scroll__graphic',
+				text: '.scroll__text',
+				step: '.scroll__text .step',
+				debug: false,
+			})
+				.onStepEnter(handleStepEnter)
+				.onContainerEnter(handleContainerEnter)
+				.onContainerExit(handleContainerExit);
+
+			// setup resize event
+			window.addEventListener('resize', handleResize);
+		}
+
+		// kick things off
+		init();
+	</script>
+</body>
+
+</html>
