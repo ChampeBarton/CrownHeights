@@ -641,9 +641,9 @@
 			})
 
 			queue()
-				.defer(d3.csv, "brooklynink.github.io/prev_update.csv")
-			    .defer(d3.csv, "brooklynink.github.io/cur_update.csv")
-			    .defer(d3.csv, "brooklynink.github.io/nycha_latlng.csv")
+				.defer(d3.csv, "prev_update.csv")
+			    .defer(d3.csv, "cur_update.csv")
+			    .defer(d3.csv, "nycha_latlng.csv")
 			    .await(enter);
 
 			function enter(error, prev, cur, pub) {
