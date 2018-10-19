@@ -525,9 +525,15 @@
 		var buffer = d3.selectAll('.step_buffer');
 
 		var start = 0,
-		done = 0,
-		tally = 3058,
-		tally2 = 3058;
+		done = 0;
+
+		if(!mobile) {
+			var tally = 3058,
+			tally2 = 3058;
+		} else {
+			var tally = 559,
+			tally2 = 559;
+		}
 
 		if(!mobile) {
 			var width = 800,
@@ -729,8 +735,13 @@
 				          .attrTween("fill", function() {return d3.interpolateRgb("rgba(177,238,101,.7)", "rgba(223,68,156,0)")});
 
 				    done = 1;
-				    tally = 3058;
-				    tally2 = 3058;
+				    if(!mobile) {
+					    tally = 3058;
+					    tally2 = 3058;
+					} else {
+						tally = 559;
+					    tally2 = 559;
+					}
 				}
 
 				if (response.index == 2 && response.direction == 'down') {
@@ -776,7 +787,11 @@
 				        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
 				        .attr("fill", "rgba(223,68,156,.7)");
 
-				    tally = 3058
+				    if(!mobile) {	
+				    	tally = 3058;
+				    } else {
+				    	tally = 559;
+				    }
 				}
 
 				nycha.selectAll("ellipse")
