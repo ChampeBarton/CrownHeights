@@ -55,7 +55,7 @@
 
 		#intro {
 /*			max-width: 40rem;*/
-			padding: 80px 0;
+			padding: 30px 0;
 			text-align: center;
 		}
 
@@ -65,7 +65,7 @@
 
 		.intro__hed {
 			font-size: 2rem;
-			margin: 24px auto;
+			margin: 10px auto;
 			text-transform: uppercase;
 			font-weight: 900;
 			letter-spacing: 0.05em;
@@ -257,6 +257,42 @@
 			padding: 0 6%;
 		}
 
+		.waffle {
+		  display: flex;
+		  flex-wrap: wrap;
+		  width: 360px;
+		  padding-top: 30px;
+		  margin: 0 auto;
+		  background-color: rgb(221,221,221);
+		}
+
+		.block {
+		  width: 54px;
+		  height: 28px;
+		  margin: 3px;
+		}
+
+		.image {
+			height: 50%;
+			width: 50%;
+			margin-bottom: 10px;
+		}
+
+		.image2 {
+			height: 100%;
+			width: 100%;
+			margin-bottom: 10px;
+		}
+
+		.column {
+			display: inline-block;
+		}
+
+		.figcaption {
+			font-size: .6rem;
+			margin-bottom: 31px;
+		}
+
 		@media (max-width: 480px) {
 			.intro__hed {
 				margin: 24px 3%;
@@ -319,6 +355,15 @@
 				display: none;
 			}
 
+			.waffle {
+				width: 228px;
+			}
+
+			.block {
+				width: 34px;
+				height: 18px;
+				margin: 2px;
+			}
 		}
 
 /*		@media (max-width: 320px) {
@@ -371,6 +416,7 @@
 
 <body>
 	<div class='wrapper'>
+		<figure class="waffle"></figure>
 		<section id='intro'>
 	<!-- 		<p class='intro__overline'>
 				<a href='https://github.com/russellgoldenberg/scrollama'>scrollama.js</a>
@@ -456,7 +502,7 @@
 			Michael Hollingsworth, a member of the Crown Heights tenant union and a renter at 12 Crown St., <a href="https://www.cityandstateny.com/articles/policy/nonprofits/homeless-shelters-opened-under-mayor-de-blasio.html">two blocks</a> from one of the new shelters, agrees with this sentiment. He said that pumping money into the development of shelters and new luxury high rises overlooks the needs of tenants facing displacement, when that money and space could go towards increasing the number of affordable units.
 		</p>
 		<p class='prose'>
-			Soon enough, a good number these residents may have to leave the city altogether. Hollingsworth, along with several business owners, pastors, and community organizers spoke of friends or family who had returned to their home islands: to Trinidad and Tobago, to Guyana, Haiti, Jamaica, or Grenada. Others moved South, part of a <a href="https://www.brookings.edu/research/the-new-great-migration-black-americans-return-to-the-south-1965-2000/">New Great Migration</a> of blacks seeking more affordable living in Atlanta, Raleigh, South Florida, and other locations. These migrants were difficult to reach, failing to return calls or outright refusing requests to speak, unwilling to relitigate the trauma of their move, according to those who reached out on the Ink’s behalf. Their absence in the community is felt, especially by longtime residents like Hollingsworth, who has lived in Crown Heights for over 30 years: Without a change, he said, “this place is going to end up like Times Square. Eventually it’s going to be like we were never here.”
+			Soon enough, a good number these residents may have to leave the city altogether. Hollingsworth, along with several business owners, pastors, and community organizers spoke of friends or family who had returned to their home islands: to Trinidad and Tobago, to Barbados, Haiti, Jamaica, or Grenada. Others moved South, part of a <a href="https://www.brookings.edu/research/the-new-great-migration-black-americans-return-to-the-south-1965-2000/">New Great Migration</a> of blacks seeking more affordable living in Atlanta, Raleigh, South Florida, and other locations. These migrants were difficult to reach, failing to return calls or outright refusing requests to speak, unwilling to relitigate the trauma of their move, according to those who reached out on the Ink’s behalf. Their absence in the community is felt, especially by longtime residents like Hollingsworth, who has lived in Crown Heights for over 30 years: Without a change, he said, “this place is going to end up like Times Square. Eventually it’s going to be like we were never here.”
 		</p>
 		<p class='prose_head'>II. Displaced</p>
 		<p class='prose'>
@@ -465,12 +511,21 @@
 		<p class='prose'>
 			Lett was, in fact, looking for a new home, and, she says her landlord knew as much. The one bedroom she occupied with her husband and their 11 year old son was small; her son would soon need his own room. But Lett says her landlord was less concerned with her placement in a new home than with the vacancy of her current one, and so he called again the next day. “I need your apartment,” she said he told her. The next day, the same call. She asked that he stop calling, but he called again. And again. She says he called her every day for a month until she re-signed the lease he had offered a month before.
 		</p>
+		<img class="image2" src="icepops.jpg" alt='Island Pops'>
+		<figcaption class="figcaption">Island Pops, a caribbean-themed ice cream shop run by Khalid Hamid and his wife, Shelly Marshall-Hamid. Photo by Champe Barton.
+		</figcaption>
 		<p class='prose'>
 			Lett says she has had no communication with her landlord since, aside from a call he made to scold her for notifying 311 about his unwillingness to answer the phone or make needed repairs. She says in the little interaction they share, he treats her like she’s stupid, and that he responds to her complaints — about leaks, about debris resting against her first-floor-apartment’s bedroom window — with “an aura of ‘I don’t care’.” 
 		</p>
 		<p class='prose'>
 			This strategy is typical of landlords who want to capitalize on inflating market rates for rent-stabilized apartments, says Estefania Trujillo, an organizer for the Flatbush Tenant Coalition. It fuels the involuntary exodus from Crown Heights that has unfolded since 2000. Once the market value of a rent-stabilized apartment exceeds a certain dollar figure ($2,700, according to Trujillo), landlords can rent it at market rate should a vacancy arise. This incentivizes landlords to mount harassment campaigns against rent-stabilized tenants in which they prey on tenants’ poverty with buyout offers and withhold maintenance in an effort to convince them their apartments are not worth holding onto. 
 		</p>
+		<figure>
+			<img class="image" src="hole.jpg" alt='DAMAGES' style="float:left">
+			<img class="image" src="seal.jpg" alt='DAMAGES'>
+			<figcaption class="figcaption">A hole in Jeanette's ceiling, sealed, she says, by her landlord with duct tape and paper. Photos by Jeanette Lett.
+			</figcaption>
+		</figure>
 		<p class='prose'>
 			In Lett’s case, her landlord’s calling was the latest in a string of what she considers attempts to force her from her apartment, attempts that skirted the line between immoral and illegal. As far back as 2012, Lett says she struggled to get substantive maintenance for repairs. An untreated leak in her bathroom ceiling spread to her bedroom and after two years of neglect, caused the ceiling to cave. It took four days for a maintenance person to arrive and when one did, the hole was covered with paper and duct tape. In the end, her husband had to seal it himself. A representative for the Crown Heights Tenant Union familiar with Lett’s situation confirmed this account.
 		</p>
@@ -495,6 +550,9 @@
 		<p class='prose'>
 			Hollingsworth, for his part, doesn’t care. The landlords don’t live in their communities, he says, and only plant roots here to turn a profit. And that profit is ever more generated by Crown Heights’ newcomers. “It’s all being built to attract new residents” he said. “There’s something immoral about that.”
 		</p>
+		<img class="image2" src="12Crown.jpg" alt='Crown Street'>
+		<figcaption class="figcaption">12 Crown Street, which has been rebranded in recent years to Twelve Crown Condominiums. Photo by Champe Barton.
+		</figcaption>
 		<p class='prose_head'>III. Lost</p>
 		<p class='prose'>
 			When Bernice Alford joined Trinity Baptist Church, on the corner of New York Avenue and Prospect Place in Crown Heights, its pews were full. It was the summer of 1959 and Alford, the seventh daughter of South Carolina sharecroppers, was among the church’s first black congregants. Through the succeeding decade, she would see the church’s white congregation give way to the thrust of the Great Migration, while its attendance remained steady. There were still junior choirs, still men’s choruses, still Sunday packed schools and ushers to greet passersby at the door.
@@ -508,6 +566,9 @@
 		<p class='prose'>
 			Bembry, in response, has relegated to a young theological doctoral student and a team of other young congregants the task of charting a survival course for the church, a 20 year plan to envision, prepare for, and implement the types of changes that would keep Trinity solvent, and its doors open. If the group fails, Trinity will join a long list of Crown Heights businesses and organizations that vanished since the early 2000s and Alford, the lone survivor of Trinity’s original roster of black congregants, will have to watch the church that has been her home for the better half of a lifetime field its last prayer. “I pray to God it does not close,” she said, before a long pause. “It would hurt me.”
 		</p>
+		<img class="image2" src="trinity.jpg" alt='Trinity'>
+		<figcaption class="figcaption">The marquee outside Trinity Baptist Church. Photo by Champe Barton.
+		</figcaption>
 		<p class='prose'>
 			As the city’s largest enclave for West Indian immigrants, the community loses something intangible — in addition to its historic churches and longtime residents — when it fractures like it’s fracturing now. First and second generation immigrant residents like Khalid Hamid and Michael Hollingsworth say they feel the change, a loss of something they and their families carried with them from the islands. In Hamid’s countryside Trinidadian home of Arima, birthplace of Lord Kitchener, the grandmaster of calypso, Hamid remembers a tight-knit fabric, the kind of community where kids raced from house to house with doors unlocked, where you could rifle through a friend’s fridge as though it was your own. It was a collectivist culture, he said, with few rifts as deep as the dichotomies that exist between subgroups in the United States. 
 		</p>
@@ -564,6 +625,73 @@
 		// 	var tally = 559,
 		// 	tally2 = 559;
 		// }
+
+		//__________________________________________________________illustration________________________________
+
+		// Select your div
+		const waffle = d3.select('.waffle');
+
+		// Create an array with numbers 0 - 99
+		const numbers = d3.range(30);
+
+		const jamaica = [1,2,2,2,2,1,3,1,2,2,1,3,3,3,1,1,3,3,3,3,1,1,3,3,3,1,2,2,1,3,1,2,2,2,2,1],
+		trinidad = [3,4,5,5,5,5,4,3,4,5,5,5,5,4,3,4,5,5,5,5,4,3,4,5,5,5,5,4,3,4,5,5,5,5,4,3],
+		haiti = [6,6,6,6,6,6,6,6,6,6,6,6,6,6,4,4,6,6,7,7,3,3,7,7,7,7,7,7,7,7,7,7,7,7,7,7],
+		dominican = [8,8,4,4,9,9,8,8,4,4,9,9,4,4,10,10,4,4,4,4,10,10,4,4,9,9,4,4,8,8,9,9,4,4,8,8],
+		guadeloupe = [11,11,4,4,12,12,11,11,4,4,12,12,11,11,4,4,12,12,11,11,4,4,12,12,11,11,4,4,12,12,11,11,4,4,12,12],
+		cuba = [13,14,14,14,14,14,13,13,4,4,4,4,13,4,13,14,14,14,13,4,13,14,14,14,13,13,4,4,4,4,13,14,14,14,14,14],
+		barbados = [15,15,16,16,15,15,15,15,16,16,15,15,15,15,3,3,15,15,15,15,16,16,15,15,15,15,16,16,15,15,15,15,16,16,15,15],
+		bahamas = [3,17,17,17,17,17,3,3,17,17,17,17,3,3,3,18,18,18,3,3,3,18,18,18,3,3,17,17,17,17,3,17,17,17,17,17],
+		vincent = [19,19,20,20,21,21,19,19,20,20,21,21,19,19,20,20,21,21,19,19,20,20,21,21,19,19,20,20,21,21,19,19,20,20,21,21];
+
+		const flags = [jamaica, trinidad, haiti, dominican, guadeloupe, cuba, barbados, bahamas, vincent];
+		const colors = {1:'#f8ea44',2:'#19ab54',3:'#000000',4:'#ffffff',5:'#e82d35',6:'#254ea0',
+						7:'#cd3d57',8:'#1866a0',9:'#ca3b4b',10:'#158a7b',11:'#254ea0',12:'#e64f62',
+						13:'#e82d35',14:'#333e96',15:'#1f64ad',16:'#f6ae38',17:'#1790cf',18:'#f8ea44',
+						19:'#1b509f',20:'#f8d43d',21:'#17a352'};
+
+		var j = 1;
+ 
+		// For each item in the array, add a div element
+		// if the number is < 5, color it red, otherwise gray
+		// d => (d == 1 ? '#f8ea44' : d == 2 ? '#19ab54' : '#000000')
+		waffle
+			.selectAll('.block')
+			.data(flags[0])
+			.enter()
+			.append('div')
+			.attr('class', 'block')
+			.transition().duration(500).delay(function(d,i) {return i * 100})
+					.style('background-color', d => 
+						d == 1 ? colors[1] : d == 2 ? colors[2] : d == 3 ? colors[3] :
+						d == 4 ? colors[4] : d == 5 ? colors[5] : d == 6 ? colors[6] :
+						d == 7 ? colors[7] : d == 8 ? colors[8] : d == 9 ? colors[9] :
+						d == 10 ? colors[10] : d == 11 ? colors[11] : d == 12 ? colors[12] :
+						d == 13 ? colors[13] : d == 14 ? colors[14] : d == 15 ? colors[15] :
+						d == 16 ? colors[16] : d == 17 ? colors[17] : d == 18 ? colors[18] :
+						d == 19 ? colors[19] : d == 20 ? colors[20] : colors[21]
+					);
+
+		var loop = setInterval( function() {
+			waffle.selectAll('.block')
+				.data(flags[j])
+				.transition().duration(500).delay(function(d,i) {console.log(j); return i * 100})
+					.style('background-color', d => 
+						d == 1 ? colors[1] : d == 2 ? colors[2] : d == 3 ? colors[3] :
+						d == 4 ? colors[4] : d == 5 ? colors[5] : d == 6 ? colors[6] :
+						d == 7 ? colors[7] : d == 8 ? colors[8] : d == 9 ? colors[9] :
+						d == 10 ? colors[10] : d == 11 ? colors[11] : d == 12 ? colors[12] :
+						d == 13 ? colors[13] : d == 14 ? colors[14] : d == 15 ? colors[15] :
+						d == 16 ? colors[16] : d == 17 ? colors[17] : d == 18 ? colors[18] :
+						d == 19 ? colors[19] : d == 20 ? colors[20] : colors[21]
+					);
+
+			j++;
+			if(j == 8) {
+				j = 0;
+			}
+		}, 5000);
+		//__________________________________________________________illustration________________________________
 
 		if(!mobile) {
 			var width = 800,
