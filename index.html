@@ -239,6 +239,24 @@
 			padding:0 25%;
 		}
 
+		.mobile-hide {
+		  display: block;
+		}
+
+		.mobile-show {
+		  display: none;
+		}
+
+		.mobile-spacer {
+			height: 70px;
+		}
+
+		.performance_direction {
+			font-size: 1rem;
+			text-align: center;
+			padding: 0 6%;
+		}
+
 		@media (max-width: 480px) {
 			.intro__hed {
 				margin: 24px 3%;
@@ -291,6 +309,14 @@
 
 			.nycha_container {
 				height: 500px;
+			}
+
+			.mobile-show {
+				display: block;
+			}
+
+			.mobile-hide {
+				display: none;
 			}
 
 		}
@@ -355,6 +381,10 @@
 			</p>
 			<p class='byline'>
 				By <a href="https://twitter.com/champebarton">Champe Barton</a>
+			</p>
+			<div class='mobile-spacer mobile-show'></div>
+			<p class='performance_direction mobile-show'>
+				(For best performance, view on a laptop or desktop! Scroll to begin...)
 			</p>
 			<div class='intro_spacer'></div>
 		</section>
@@ -500,7 +530,7 @@
 			Nevertheless, Smith has hope the parade will succeed in its mission. She recounts the story of her Korean eyebrow lady, a woman who, in her mid-60s, dawns full masquerade regalia and marches, sunbaked, for hours, the length of the parade route every Labor Day. The parade appeals to people like her, she says, who understand and appreciate the importance of cultural enrichment. Whether such people exist in sufficient numbers to bolster the parade on their own is questionable, though, according to Michael Hollingsworth. He said that new residents in his building, all of whom are white, fall into two categories: those who interact with the neighborhood as though it didn’t exist before their arrival and those who want to be a part of the community that predated them.
 		</p>
 		<p class='prose'>
-			Other longtime residents share Hollingsworth sentiments, especially as they relate to the survival of the parade. Jeanette Lett, who stopped attending the parade three years ago because of the new time constraints, says she’s heard whispers for years about efforts to eliminate it. This is her biggest fear, she says: the erasure of the one opportunity each year that so many residents get to taste home.
+			Other longtime residents share Hollingsworth sentiments, especially as they relate to the survival of the parade. Jeanette Lett, who has attended the parade every year since arriving to the city in 2004, says she’s heard whispers for years about efforts to eliminate it. This is her biggest fear, she says: the erasure of the one opportunity each year that so many residents get to taste home.
 		</p>
 	</div>
 	<section id='outro'></section>
@@ -527,13 +557,13 @@
 		var start = 0,
 		done = 0;
 
-		if(!mobile) {
-			var tally = 3058,
-			tally2 = 3058;
-		} else {
-			var tally = 559,
-			tally2 = 559;
-		}
+		// if(!mobile) {
+		var tally = 3058,
+		tally2 = 3058;
+		// } else {
+		// 	var tally = 559,
+		// 	tally2 = 559;
+		// }
 
 		if(!mobile) {
 			var width = 800,
@@ -562,12 +592,34 @@
 		//     .domain([0, 2300])
 		//     .range([0, 30]);
 
-		  var path = d3.geoPath()
-		      .projection(projection);
 
-		  var movement = chart.append("svg")
+		if(!mobile) {
+		    var movement = chart.append("svg")
 		      .attr("width", width)
 		      .attr("height", height);
+
+		    var path = d3.geoPath()
+		      .projection(projection);
+
+		} else {
+		 	var movement = chart.append("canvas")
+	          .attr("id", "canvas")
+	          .attr("width", width)
+	          .attr("height", height);
+
+	        var context = movement.node().getContext("2d");
+
+	        var detachedContainer = document.createElement("custom");
+
+	        var dataContainer = d3.select(detachedContainer);
+
+	        var path = d3.geoPath()
+	          .projection(projection)
+	          .context(context);
+
+	        var pathGenerator = d3.geoPath()
+	          .projection(projection);
+		}
 
 		  var nycha = d3.select('.nycha').append("svg")
 		  	  .attr("width", width)
@@ -580,14 +632,27 @@
 		   function ready(error, nycd) {
 			    if (error) throw error;
 
-			    movement.append("path")
-			        .datum(topojson.mesh(nycd))
-			        .attr("d", path);
+				if (!mobile) {
+				    movement.append("path")
+				        .datum(topojson.mesh(nycd))
+				        .attr("d", path);
 
-			    nycha.append("path")
-			    	.datum(topojson.mesh(nycd))
-			        .attr("d", path);
-			}
+				    nycha.append("path")
+				    	.datum(topojson.mesh(nycd))
+				        .attr("d", path);
+				} else {
+					var mesh = topojson.mesh(nycd);
+
+		            context.beginPath();
+		            path(mesh);
+		            context.strokeStyle = "#999";
+		            context.stroke();
+
+		            nycha.append("path")
+		              .datum(topojson.mesh(nycd))
+		                .attr("d", pathGenerator);
+					}
+				}
 
 			d3.select(self.frameElement).style("height", height + "px");
 
@@ -646,152 +711,296 @@
 				return i === response.index;
 			})
 
-			if(!mobile) {
-				queue()
-				    .defer(d3.csv, "https://raw.githubusercontent.com/BrooklynInk/CrownHeights/master/prev_update.csv")
-				    .defer(d3.csv, "https://raw.githubusercontent.com/BrooklynInk/CrownHeights/master/cur_update.csv")
-				    .defer(d3.csv, "https://raw.githubusercontent.com/BrooklynInk/CrownHeights/master/nycha_latlng.csv")
-				    .await(enter);
-			} else {
-				queue()
-				    .defer(d3.csv, "https://raw.githubusercontent.com/BrooklynInk/CrownHeights/master/prev_mobile.csv")
-				    .defer(d3.csv, "https://raw.githubusercontent.com/BrooklynInk/CrownHeights/master/cur_mobile.csv")
-				    .defer(d3.csv, "https://raw.githubusercontent.com/BrooklynInk/CrownHeights/master/nycha_latlng.csv")
-				    .await(enter);
-			}
+			// if(!mobile) {	
+			queue()
+			    .defer(d3.csv, "prev_update.csv")
+			    .defer(d3.csv, "cur_update.csv")
+			    .defer(d3.csv, "nycha_latlng.csv")
+			    .await(enter);
+			// } else {
+			// 	queue()
+			// 		.defer(d3.csv, "prev_mobile.csv")
+			// 	    .defer(d3.csv, "cur_mobile.csv")
+			// 	    .defer(d3.csv, "nycha_latlng.csv")
+			// 	    .await(enter);
+			// }
 
 			function enter(error, prev, cur, pub) {
 			    if (error) throw error;
 
-			    if (response.index == 0 && response.direction == 'down'){
-			    	movement.selectAll("circle")
-				      .data(prev)
-				      .enter()
-				      .append("circle")
-				      .attr("cx", function(d) { return projection([+d.lon, +d.lat])[0]; })
-				      .attr("cy", function(d) { return projection([+d.lon, +d.lat])[1]; })
-				      .attr("r", "2px")
-				      .attr("fill", "none");
+			    if(!mobile) {
+				    if (response.index == 0 && response.direction == 'down'){
+				    	movement.selectAll("circle")
+					      .data(prev)
+					      .enter()
+					      .append("circle")
+					      .attr("cx", function(d) { return projection([+d.lon, +d.lat])[0]; })
+					      .attr("cy", function(d) { return projection([+d.lon, +d.lat])[1]; })
+					      .attr("r", "2px")
+					      .attr("fill", "none");
 
-				    d3.selectAll("circle")
-				      .transition().delay( function(d, i) { return i * 500})
-				        .attr("fill", "rgba(223,68,156,.7)");
+					    d3.selectAll("circle")
+					      .transition().delay( function(d, i) { return i * 500})
+					        .attr("fill", "rgba(223,68,156,.7)");
 
-				    d3.selectAll("circle")
-				      .data(cur)
-				      .transition().duration(800).delay( function(d, i) { return i * 700})
-				        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
-				        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
-				        .attr("fill", "rgba(58,144,222,.7)");
-			    }				
-			    else if (response.index == 0 && response.direction == 'down' && start != 0 && done != 0) {
-				 //	   d3.selectAll("circle")
-				 //      .transition().duration(20).delay( function(d, i) { return i * 10})
-				 //        .attr("fill", "rgba(223,68,156,0)")
-				 //        .attr("stroke", "rgba(0,0,0,0)");
+					    d3.selectAll("circle")
+					      .data(cur)
+					      .transition().duration(800).delay( function(d, i) { return i * 700})
+					        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+					        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+					        .attr("fill", "rgba(58,144,222,.7)");
+				    }				
+				    else if (response.index == 0 && response.direction == 'down' && start != 0 && done != 0) {
+					 //	   d3.selectAll("circle")
+					 //      .transition().duration(20).delay( function(d, i) { return i * 10})
+					 //        .attr("fill", "rgba(223,68,156,0)")
+					 //        .attr("stroke", "rgba(0,0,0,0)");
 
-				 	d3.selectAll("circle")
-				      .transition().delay( function(d, i) { return i * 500})
-				        .attr("fill", "rgba(223,68,156,.7)");
+					 	d3.selectAll("circle")
+					      .transition().delay( function(d, i) { return i * 500})
+					        .attr("fill", "rgba(223,68,156,.7)");
 
-					d3.selectAll("circle")
-				      .data(cur)
-				      .transition().duration(800).delay( function(d, i) { return i * 700})
-				        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
-				        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
-				        .attr("fill", "rgba(58,144,222,.7)");
+						d3.selectAll("circle")
+					      .data(cur)
+					      .transition().duration(800).delay( function(d, i) { return i * 700})
+					        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+					        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+					        .attr("fill", "rgba(58,144,222,.7)");
 
-				    done = 0;
-				    console.log("end")
-				}
+					    done = 0;
+					    // console.log("end")
+					}
 
-				if (response.index == 1 && response.direction == 'down') {
+					if (response.index == 1 && response.direction == 'down') {
 
-				    d3.selectAll("circle")
-				      .transition().delay( function(d, i) { return i * 90})
-				        .attr("fill", "rgba(223,68,156,.7)");
+					    d3.selectAll("circle")
+					      .transition().delay( function(d, i) { return i * 90})
+					        .attr("fill", "rgba(223,68,156,.7)");
 
-				    d3.selectAll("circle")
-				      .data(cur)
-				      .transition().duration(500).delay( function(d, i) { return i * 100})
-				        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
-				        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
-				        .attr("fill", "rgba(58,144,222,.7)");
-				} 
-				else if (response.index == 1 && response.direction == 'up') {
-					d3.selectAll("circle")
-				      .data(prev)
-				      .transition().duration(1000).delay( function(d, i) { 
-				      	tally2 = tally2 - 2;
-				      	return (i+tally2) * 2 
-				      })
-				        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
-				        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
-				        .attr("fill", "rgba(223,68,156,.7)")
-				      .transition().duration(300).delay( function(d, i) {
-				       	tally = tally - 2;
-				       	return (i+tally) * 3
-				   	  })
-				          .attrTween("fill", function() {return d3.interpolateRgb("rgba(177,238,101,.7)", "rgba(223,68,156,0)")});
+					    d3.selectAll("circle")
+					      .data(cur)
+					      .transition().duration(500).delay( function(d, i) { return i * 100})
+					        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+					        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+					        .attr("fill", "rgba(58,144,222,.7)");
+					} 
+					else if (response.index == 1 && response.direction == 'up') {
+						d3.selectAll("circle")
+					      .data(prev)
+					      .transition().duration(1000).delay( function(d, i) { 
+					      	tally2 = tally2 - 2;
+					      	return (i+tally2) * 2 
+					      })
+					        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+					        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+					        .attr("fill", "rgba(223,68,156,.7)")
+					      .transition().duration(300).delay( function(d, i) {
+					       	tally = tally - 2;
+					       	return (i+tally) * 3
+					   	  })
+					          .attrTween("fill", function() {return d3.interpolateRgb("rgba(177,238,101,.7)", "rgba(223,68,156,0)")});
 
-				    done = 1;
-				    if(!mobile) {
+					    done = 1;
+					    // if(!mobile) {
 					    tally = 3058;
 					    tally2 = 3058;
-					} else {
-						tally = 559;
-					    tally2 = 559;
+						// } else {
+						// 	tally = 559;
+						//     tally2 = 559;
+						// }
 					}
-				}
 
-				if (response.index == 2 && response.direction == 'down') {
-					// d3.selectAll("circle")
-				 //      .transition().delay( function(d, i) { return i * 60})
-				 //        .attr("fill", "rgba(223,68,156,.7)");
+					// if (response.index == 2 && response.direction == 'down') {
+						// d3.selectAll("circle")
+					 //      .transition().delay( function(d, i) { return i * 60})
+					 //        .attr("fill", "rgba(223,68,156,.7)");
 
-					// d3.selectAll("circle")
-				 //      .data(cur)
-				 //      .transition().duration(600).delay( function(d, i) { return i * 100})
-				 //        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
-				 //        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
-				 //        .attr("fill", "rgba(58,144,222,.7)");
-				 //      .transition().duration(800).delay( function(d, i) { return i * 500})
-				 //        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
-				 //        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
-				 //        .attr("fill", "rgba(58,144,222,.7)");
-				}
-				else if (response.index == 2 && response.direction == 'up') {
+						// d3.selectAll("circle")
+					 //      .data(cur)
+					 //      .transition().duration(600).delay( function(d, i) { return i * 100})
+					 //        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+					 //        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+					 //        .attr("fill", "rgba(58,144,222,.7)");
+					 //      .transition().duration(800).delay( function(d, i) { return i * 500})
+					 //        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+					 //        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+					 //        .attr("fill", "rgba(58,144,222,.7)");
+					// }
+					// else if (response.index == 2 && response.direction == 'up') {
 
-				}
+					// }
 
-				if (response.index == 3 && response.direction == 'down') {
-					d3.selectAll("circle")
-				      .transition().delay( function(d, i) { return i * 2})
-				        .attr("fill", "rgba(223,68,156,.7)");
+					if (response.index == 3 && response.direction == 'down') {
+						d3.selectAll("circle")
+					      .transition().delay( function(d, i) { return i * 2})
+					        .attr("fill", "rgba(223,68,156,.7)");
 
-					d3.selectAll("circle")
-				      .data(cur)
-				      .transition().duration(1000).delay( function(d, i) { return i * 3 })
-				        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
-				        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
-				        .attr("fill", "rgba(58,144,222,.7)");
-				}
-				else if (response.index == 3 && response.direction == 'up') {
-					d3.selectAll("circle")
-				      .data(prev)
-				      .transition().duration(500).delay( function(d, i) { 
-				      	tally = tally - 2;
-				      	return (i + tally) * 5
-				      })
-				        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
-				        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
-				        .attr("fill", "rgba(223,68,156,.7)");
+						d3.selectAll("circle")
+					      .data(cur)
+					      .transition().duration(1000).delay( function(d, i) { return i * 3 })
+					        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+					        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+					        .attr("fill", "rgba(58,144,222,.7)");
+					}
+					else if (response.index == 3 && response.direction == 'up') {
+						d3.selectAll("circle")
+					      .data(prev)
+					      .transition().duration(500).delay( function(d, i) { 
+					      	tally = tally - 2;
+					      	return (i + tally) * 5
+					      })
+					        .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+					        .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+					        .attr("fill", "rgba(223,68,156,.7)");
 
-				    if(!mobile) {	
-				    	tally = 3058;
-				    } else {
-				    	tally = 559;
-				    }
+					    // if(!mobile) {	
+					    tally = 3058;
+					    // } else {
+					    // 	tally = 559;
+					    // }
+					}
+				} else {
+					 var databinding = dataContainer.selectAll("custom.arc");
+
+			         if (response.index == 0 && response.direction == 'down'){
+			            // console.log("enter");
+
+			            databinding
+			              .data(prev)
+			              .enter()
+			              .append("custom")
+			              .classed("arc", true)
+			              .attr("cx", function(d) { return projection([+d.lon, +d.lat])[0]; })
+			              .attr("cy", function(d) { return projection([+d.lon, +d.lat])[1]; })
+			              .attr("r", "2")
+			              .attr("fill", "rgba(223,68,156,0)");
+
+			            if (start == 0) {
+			              var databinding = dataContainer.selectAll("custom.arc");
+			            }
+
+			            databinding
+			              .transition().delay( function(d, i) { return i * 500})
+			                .attr("fill", "rgba(223,68,156,.7)");
+
+			            databinding
+			              .data(cur)
+			              .transition().duration(800).delay( function(d, i) { return i * 700})
+			                .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+			                .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+			                .attr("fill", "rgba(58,144,222,.7)");
+
+			            start = 1;
+			            // console.log(start);
+			          }       
+			          else if (response.index == 0 && response.direction == 'down' && start != 0 && done != 0) {
+			         //    d3.selectAll("custom.circle")
+			         //      .transition().duration(20).delay( function(d, i) { return i * 10})
+			         //        .attr("fill", "rgba(223,68,156,0)")
+			         //        .attr("stroke", "rgba(0,0,0,0)");
+
+			          databinding
+			              .transition().delay( function(d, i) { return i * 500})
+			                .attr("fill", "rgba(223,68,156,.7)");
+
+			          databinding
+			              .data(cur)
+			              .transition().duration(800).delay( function(d, i) { return i * 700})
+			                .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+			                .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+			                .attr("fill", "rgba(58,144,222,.7)");
+
+			            done = 0;
+			        }
+
+			        if (response.index == 1 && response.direction == 'down') {
+
+			            databinding
+			              .transition().delay( function(d, i) { return i * 90})
+			                .attr("fill", "rgba(223,68,156,.7)");
+
+			            databinding
+			              .data(cur)
+			              .transition().duration(500).delay( function(d, i) { return i * 100})
+			                .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+			                .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+			                .attr("fill", "rgba(58,144,222,.7)");
+			        } 
+			        else if (response.index == 1 && response.direction == 'up') {
+			          databinding
+			              .data(prev)
+			              .transition().duration(1000).delay( function(d, i) { 
+			                tally2 = tally2 - 2;
+			                return (i+tally2) * 2 
+			              })
+			                .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+			                .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+			                .attr("fill", "rgba(223,68,156,.7)")
+			              .transition().duration(300).delay( function(d, i) {
+			                tally = tally - 2;
+			                return (i+tally) * 3
+			              })
+			                  .attrTween("fill", function() {return d3.interpolateRgb("rgba(177,238,101,.7)", "rgba(223,68,156,0)")});
+
+			            done = 1;
+			            // if(!mobile) {
+			            tally = 3058;
+			            tally2 = 3058;
+			          // } else {
+			          //   tally = 559;
+			          //     tally2 = 559;
+			          // }
+			        }
+
+			        // if (response.index == 2 && response.direction == 'down') {
+			        //   d3.selectAll("custom.circle")
+			        //       .transition().delay( function(d, i) { return i * 60})
+			        //         .attr("fill", "rgba(223,68,156,.7)");
+
+			        //   d3.selectAll("custom.circle")
+			        //       .data(cur)
+			        //       .transition().duration(600).delay( function(d, i) { return i * 100})
+			        //         .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+			        //         .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+			        //         .attr("fill", "rgba(58,144,222,.7)");
+			        //       .transition().duration(800).delay( function(d, i) { return i * 500})
+			        //         .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+			        //         .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+			        //         .attr("fill", "rgba(58,144,222,.7)");
+			        // }
+			        // else if (response.index == 2 && response.direction == 'up') {
+
+			        // }
+
+			        if (response.index == 3 && response.direction == 'down') {
+			          databinding
+			              .transition().delay( function(d, i) { return i * 2})
+			                .attr("fill", "rgba(223,68,156,.7)");
+
+			          databinding
+			              .data(cur)
+			              .transition().duration(1000).delay( function(d, i) { return i * 3 })
+			                .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+			                .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+			                .attr("fill", "rgba(58,144,222,.7)");
+			        }
+			        else if (response.index == 3 && response.direction == 'up') {
+			          databinding
+			              .data(prev)
+			              .transition().duration(500).delay( function(d, i) { 
+			                tally = tally - 2;
+			                return (i + tally) * 5
+			              })
+			                .attr("cx", function (d) { return projection([+d.lon, +d.lat])[0]; })
+			                .attr("cy", function (d) { return projection([+d.lon, +d.lat])[1]; }) 
+			                .attr("fill", "rgba(223,68,156,.7)");
+
+			            // if(!mobile) { 
+			            tally = 3058;
+			            // } else {
+			            //   tally = 559;
+			            // }
+			        }
 				}
 
 				nycha.selectAll("ellipse")
@@ -846,10 +1055,74 @@
 
 			// setup resize event
 			window.addEventListener('resize', handleResize);
+
+		}
+
+		if(!mobile) {
+			init();
+		} else {
+		    d3.json("nycd-topo.json", function(error, nycd) {
+		      function drawCanvas() {
+
+		        // clear canvas
+		        context.fillStyle = "#fff";
+		        context.rect(0,0,movement.attr("width"),movement.attr("height"));
+		        context.fill();
+
+		        var mesh = topojson.mesh(nycd);
+
+		        context.beginPath();
+		        path(mesh);
+		        context.strokeStyle = "#999";
+		        context.stroke();
+
+		        var elements = dataContainer.selectAll("custom.arc");
+		        elements.each(function(d) {
+		          var node = d3.select(this);
+
+		          context.beginPath();
+		          context.fillStyle = node.attr("fill");
+		          context.arc(node.attr("cx"), node.attr("cy"), node.attr("r"), 0,  2 * Math.PI);
+		          context.fill();
+		          context.closePath();
+		        });
+		      }
+
+		      var fps = 2000;
+		      var now;
+		      var then = Date.now();
+		      var interval = 1000/fps;
+		      var delta;
+
+		      function animate() {
+		          
+		          requestAnimationFrame(animate);
+		          
+		          now = Date.now();
+		          delta = now - then;
+		          // console.log(delta);
+		          
+		          if (delta > interval) { 
+		            then = now - (delta % interval);
+		            drawCanvas(context);
+		          }
+		        }
+
+		      animate();
+
+		      // function animate() {
+		      //     drawCanvas(context);
+		      //     window.requestAnimationFrame(animate);
+		      //   }
+		      //   window.requestAnimationFrame(animate);
+
+		      // d3.timer(drawCanvas);
+		      init();
+		    });
 		}
 
 		// kick things off
-		init();
+		// init();
 	</script>
 </body>
 
