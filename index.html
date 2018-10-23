@@ -672,27 +672,25 @@
 						d == 19 ? colors[19] : d == 20 ? colors[20] : colors[21]
 					);
 
-		if(!mobile) {
-			var loop = setInterval( function() {
-				waffle.selectAll('.block')
-					.data(flags[j])
-					.transition().duration(500).delay(function(d,i) {console.log(j); return i * 100})
-						.style('background-color', d => 
-							d == 1 ? colors[1] : d == 2 ? colors[2] : d == 3 ? colors[3] :
-							d == 4 ? colors[4] : d == 5 ? colors[5] : d == 6 ? colors[6] :
-							d == 7 ? colors[7] : d == 8 ? colors[8] : d == 9 ? colors[9] :
-							d == 10 ? colors[10] : d == 11 ? colors[11] : d == 12 ? colors[12] :
-							d == 13 ? colors[13] : d == 14 ? colors[14] : d == 15 ? colors[15] :
-							d == 16 ? colors[16] : d == 17 ? colors[17] : d == 18 ? colors[18] :
-							d == 19 ? colors[19] : d == 20 ? colors[20] : colors[21]
-						);
+		var loop = setInterval( function() {
+			waffle.selectAll('.block')
+				.data(flags[j])
+				.transition().duration(500).delay(function(d,i) {console.log(j); return i * 100})
+					.style('background-color', d => 
+						d == 1 ? colors[1] : d == 2 ? colors[2] : d == 3 ? colors[3] :
+						d == 4 ? colors[4] : d == 5 ? colors[5] : d == 6 ? colors[6] :
+						d == 7 ? colors[7] : d == 8 ? colors[8] : d == 9 ? colors[9] :
+						d == 10 ? colors[10] : d == 11 ? colors[11] : d == 12 ? colors[12] :
+						d == 13 ? colors[13] : d == 14 ? colors[14] : d == 15 ? colors[15] :
+						d == 16 ? colors[16] : d == 17 ? colors[17] : d == 18 ? colors[18] :
+						d == 19 ? colors[19] : d == 20 ? colors[20] : colors[21]
+					);
 
-				j++;
-				if(j == 8) {
-					j = 0;
-				}
-			}, 5000);
-		}
+			j++;
+			if(j == 8) {
+				j = 0;
+			}
+		}, 5000);
 		//__________________________________________________________illustration________________________________
 
 		if(!mobile) {
@@ -1218,7 +1216,7 @@
 		        });
 		      }
 
-		      var fps = 2000;
+		      var fps = 60;
 		      var now;
 		      var then = Date.now();
 		      var interval = 1000/fps;
