@@ -730,23 +730,34 @@
 		      .projection(projection);
 
 		} else {
-		 	var movement = chart.append("canvas")
-	          .attr("id", "canvas")
-	          .attr("width", width)
-	          .attr("height", height);
+			var map = chart.append("canvas")
+			  .attr("id", "map_canvas")
+			  .attr("width", width)
+			  .attr("height", height)
+			  .style("z-index", 2)
+			  .style("position", "absolute");
 
-	        var context = movement.node().getContext("2d");
+			var movement = chart.append("canvas")
+			  .attr("id", "canvas")
+			  .attr("width", width)
+			  .attr("height", height)
+			  .style("z-index", 1)
+			  .style("position", "relative");
 
-	        var detachedContainer = document.createElement("custom");
+			var context = movement.node().getContext("2d");
 
-	        var dataContainer = d3.select(detachedContainer);
+			var mapContext = map.node().getContext("2d");
 
-	        var path = d3.geoPath()
-	          .projection(projection)
-	          .context(context);
+			var detachedContainer = document.createElement("custom");
 
-	        var pathGenerator = d3.geoPath()
-	          .projection(projection);
+			var dataContainer = d3.select(detachedContainer);
+
+			var path = d3.geoPath()
+			  .projection(projection)
+			  .context(mapContext);
+
+			var pathGenerator = d3.geoPath()
+			  .projection(projection);
 		}
 
 		  var nycha = d3.select('.nycha').append("svg")
@@ -771,10 +782,10 @@
 				} else {
 					var mesh = topojson.mesh(nycd);
 
-		            context.beginPath();
+		            mapContext.beginPath();
 		            path(mesh);
-		            context.strokeStyle = "#999";
-		            context.stroke();
+		            mapContext.strokeStyle = "#999";
+		            mapContext.stroke();
 
 		            nycha.append("path")
 		              .datum(topojson.mesh(nycd))
@@ -782,7 +793,7 @@
 					}
 				}
 
-			d3.select(self.frameElement).style("height", height + "px");
+		d3.select(self.frameElement).style("height", height + "px");
 
 		// initialize the scrollama
 		var scroller = scrollama();
