@@ -1190,12 +1190,12 @@
 			init();
 		} else {
 // 		    d3.json("nycd-topo.json", function(error, nycd) {
-// 		      function drawCanvas() {
+		      function drawCanvas() {
 
-// 		        // clear canvas
-// 		        context.fillStyle = "#fff";
-// 		        context.rect(0,0,movement.attr("width"),movement.attr("height"));
-// 		        context.fill();
+		        // clear canvas
+		        context.fillStyle = "#00ffffff";
+		        context.rect(0,0,movement.attr("width"),movement.attr("height"));
+		        context.fill();
 
 // 		        var mesh = topojson.mesh(nycd);
 
@@ -1204,17 +1204,17 @@
 // 		        context.strokeStyle = "#999";
 // 		        context.stroke();
 
-// 		        var elements = dataContainer.selectAll("custom.arc");
-// 		        elements.each(function(d) {
-// 		          var node = d3.select(this);
+		        var elements = dataContainer.selectAll("custom.arc");
+		        elements.each(function(d) {
+		          var node = d3.select(this);
 
-// 		          context.beginPath();
-// 		          context.fillStyle = node.attr("fill");
-// 		          context.arc(node.attr("cx"), node.attr("cy"), node.attr("r"), 0,  2 * Math.PI);
-// 		          context.fill();
-// 		          context.closePath();
-// 		        });
-// 		      }
+		          context.beginPath();
+		          context.fillStyle = node.attr("fill");
+		          context.arc(node.attr("cx"), node.attr("cy"), node.attr("r"), 0,  2 * Math.PI);
+		          context.fill();
+		          context.closePath();
+		        });
+		      }
 
 // 		      var fps = 60;
 // 		      var now;
