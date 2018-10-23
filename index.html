@@ -1189,64 +1189,64 @@
 		if(!mobile) {
 			init();
 		} else {
-		    d3.json("nycd-topo.json", function(error, nycd) {
-		      function drawCanvas() {
+// 		    d3.json("nycd-topo.json", function(error, nycd) {
+// 		      function drawCanvas() {
 
-		        // clear canvas
-		        context.fillStyle = "#fff";
-		        context.rect(0,0,movement.attr("width"),movement.attr("height"));
-		        context.fill();
+// 		        // clear canvas
+// 		        context.fillStyle = "#fff";
+// 		        context.rect(0,0,movement.attr("width"),movement.attr("height"));
+// 		        context.fill();
 
-		        var mesh = topojson.mesh(nycd);
+// 		        var mesh = topojson.mesh(nycd);
 
-		        context.beginPath();
-		        path(mesh);
-		        context.strokeStyle = "#999";
-		        context.stroke();
+// 		        context.beginPath();
+// 		        path(mesh);
+// 		        context.strokeStyle = "#999";
+// 		        context.stroke();
 
-		        var elements = dataContainer.selectAll("custom.arc");
-		        elements.each(function(d) {
-		          var node = d3.select(this);
+// 		        var elements = dataContainer.selectAll("custom.arc");
+// 		        elements.each(function(d) {
+// 		          var node = d3.select(this);
 
-		          context.beginPath();
-		          context.fillStyle = node.attr("fill");
-		          context.arc(node.attr("cx"), node.attr("cy"), node.attr("r"), 0,  2 * Math.PI);
-		          context.fill();
-		          context.closePath();
-		        });
-		      }
+// 		          context.beginPath();
+// 		          context.fillStyle = node.attr("fill");
+// 		          context.arc(node.attr("cx"), node.attr("cy"), node.attr("r"), 0,  2 * Math.PI);
+// 		          context.fill();
+// 		          context.closePath();
+// 		        });
+// 		      }
 
-		      var fps = 60;
-		      var now;
-		      var then = Date.now();
-		      var interval = 1000/fps;
-		      var delta;
+// 		      var fps = 60;
+// 		      var now;
+// 		      var then = Date.now();
+// 		      var interval = 1000/fps;
+// 		      var delta;
 
-		      function animate() {
+// 		      function animate() {
 		          
-		          requestAnimationFrame(animate);
+// 		          requestAnimationFrame(animate);
 		          
-		          now = Date.now();
-		          delta = now - then;
-		          // console.log(delta);
+// 		          now = Date.now();
+// 		          delta = now - then;
+// 		          // console.log(delta);
 		          
-		          if (delta > interval) { 
-		            then = now - (delta % interval);
-		            drawCanvas(context);
-		          }
-		        }
+// 		          if (delta > interval) { 
+// 		            then = now - (delta % interval);
+// 		            drawCanvas(context);
+// 		          }
+// 		        }
 
-		      animate();
+// 		      animate();
 
-		      // function animate() {
-		      //     drawCanvas(context);
-		      //     window.requestAnimationFrame(animate);
-		      //   }
-		      //   window.requestAnimationFrame(animate);
+// 		      // function animate() {
+// 		      //     drawCanvas(context);
+// 		      //     window.requestAnimationFrame(animate);
+// 		      //   }
+// 		      //   window.requestAnimationFrame(animate);
 
-		      // d3.timer(drawCanvas);
+// 		      // d3.timer(drawCanvas);
 		      init();
-		    });
+// 		    });
 		}
 
 		// kick things off
